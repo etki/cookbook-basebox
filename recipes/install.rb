@@ -21,20 +21,29 @@ end
 include_recipe 'dnsmasq' if node['basebox']['install_dnsmasq']
 
 if node['basebox']['install_mysql']
+  log 'Installing mysql' do
+    level :info
+  end
+  mysql2_chef_gem 'default' do
+    action :install
+  end
   address = '0.0.0.0' if node['basebox']['expose_mysql'] else '127.0.0.1'
   mysql_service 'default' do
     bind_address node['basebox']['expose_mysql'] ? '0.0.0.0' : '127.0.0.1'
     initial_root_password node['basebox']['mysql_root_password']
+    charset 'utf8'
     action [:create, :start]
   end
+  mysql_config 'default' do
+    source 'mysite.cnf.erb'
+    notifies :restart, 'mysql_service[default]'
+    action :create
+  end
   if not node['basebox']['mysql_users'].empty? or not node['basebox']['mysql_databases'].empty?
-    mysql2_chef_gem 'default' do
-      action :install
-    end
     mysql_connection_info = {
-        :host => '127.0.0.1',
-        :username => 'root',
-        :password => node['basebox']['mysql_root_password']
+      :host => '127.0.0.1',
+      :username => 'root',
+      :password => node['basebox']['mysql_root_password']
     }
     node['basebox']['mysql_databases'].keys.each do |name|
       mysql_database name do
