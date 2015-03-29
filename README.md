@@ -27,31 +27,31 @@ This cookbook refers to the following packages, as specified in metadata.rb:
 - memcached (only referred as dependency, use `node['basebox']['install_memcached']` to install)
 - gearman (only referred as dependency, use `node['basebox']['install_gearman']` to install)
 - phantomjs
-- docker
-- allure-cli (custom cookbook)
+- docker (installed only on x64 machines since it doesn't support other platforms)
+- allure-cli ([custom cookbook](https://github.com/etki/cookbook-allure-cli))
 
 Attributes
 ----------
 
-| Attribute             | Value   | Default value | Note                                 |
-|-----------------------|---------|---------------|--------------------------------------|
-| `install_git`         | boolean | `true`        | Whether to install git               |
-| `install_nginx`       | boolean | `true`        | Whether to install Nginx             |
-| `configure_nginx`     | boolean | `true`        | Whether to run `nginx_conf` coolbook |
-| `install_dnsmasq`     | boolean | `true`        | Whether to install DNSMasq           |
-| `install_mysql`       | boolean | `false`       | Whether to install MySQL             |
-| `mysql_root_password` | string  | `'root'`      | Password for MySQL `root` account    |
-| `expose_mysql`        | boolean | `true`        | If set to true, MySQL will be accessible from outside |
-| `mysql_users`         | hash    | empty hash    | A hash of users in {login => password} form, no superprivileges |
-| `install_postgresql`  | boolean | `false`       | Whether to install PostgreSQL        |
-| `postgresql_users`    | hash    | empty hash    | A hash of users in {login => password} form, no superprivileges |
-| `install_sqlite`      | boolean | `false`       | Whether to install SQLite            |
-| `install_redis`       | boolean | `false`       | Whether to install Redis             |
-| `install_memcached`   | boolean | `false`       | Whether to install Memcached         |
-| `install_gearman`     | boolean | `false`       | Whether to install Gearman           |
-| `install_docker`      | boolean | `true`        | Whether to install Docker            |
-| `install_phantomjs`   | boolean | `true`        | Whether to install PhantomJS         |
-| `install_allure_cli`  | boolean | `true`        | Whether to install Allure CLI runner |
+| Attribute             | Value   | Default value  | Note                                 |
+|-----------------------|---------|----------------|--------------------------------------|
+| `install_git`         | boolean | `true`         | Whether to install git               |
+| `install_nginx`       | boolean | `true`         | Whether to install Nginx             |
+| `configure_nginx`     | boolean | `true`         | Whether to run `nginx_conf` coolbook |
+| `install_dnsmasq`     | boolean | `true`         | Whether to install DNSMasq           |
+| `install_mysql`       | boolean | `false`        | Whether to install MySQL             |
+| `mysql_root_password` | string  | `'root'`       | Password for MySQL `root` account    |
+| `expose_mysql`        | boolean | `true`         | If set to true, MySQL will be accessible from outside |
+| `mysql_users`         | hash    | empty hash     | A hash of users in {login => password} form, no superprivileges |
+| `install_postgresql`  | boolean | `false`        | Whether to install PostgreSQL        |
+| `postgresql_users`    | hash    | empty hash     | A hash of users in {login => password} form, no superprivileges |
+| `install_sqlite`      | boolean | `false`        | Whether to install SQLite            |
+| `install_redis`       | boolean | `false`        | Whether to install Redis             |
+| `install_memcached`   | boolean | `false`        | Whether to install Memcached         |
+| `install_gearman`     | boolean | `false`        | Whether to install Gearman           |
+| `install_docker`      | boolean | `true` for x64 | Whether to install Docker            |
+| `install_phantomjs`   | boolean | `true`         | Whether to install PhantomJS         |
+| `install_allure_cli`  | boolean | `true`         | Whether to install Allure CLI runner |
 
 Usage
 -----
@@ -69,6 +69,7 @@ Known issues
 
 * PostgreSQL installation doesn't work yet.
 * Users hash structure is subject to change.
+* Current dnsmasq installation craps everything, so it has been turned off.
 
 Contributing
 ------------

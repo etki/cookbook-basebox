@@ -5,6 +5,8 @@
 # Copyright 2015, Etki
 #
 
+include_recipe 'locale' if node['basebox']['configure_locale']
+
 if %w{ubuntu debian}.include? node['platform']
   package 'iotop'
 end
@@ -64,10 +66,22 @@ end
 
 include_recipe 'sqlite' if node['basebox']['install_sqlite']
 
-include_recipe 'redis' if node['basebox']['install_redis']
+if node['basebox']['install_redis']
+  include_recipe 'redis::server'
+  include_recipe 'redis::client'
+end
+
 include_recipe 'memcached' if node['basebox']['install_memcached']
-include_recipe 'gearman' if node['basebox']['install_gearman']
-include_recipe 'docker' if node['basebox']['install_docker']
+include_recipe 'gearman::server' if node['basebox']['install_gearman']
+if node['basebox']['install_docker']
+  if node['kernel']['machine'] != 'x86_64'
+    log "Docker may be installed only on `x64`-arch machine, while this one has ``#{node['kernel']['machine']}`` arch." do
+      level :error
+    end
+  else
+    include_recipe 'docker' if node['basebox']['install_docker']
+  end
+end
 include_recipe 'phantomjs' if node['basebox']['install_phantomjs']
 include_recipe 'allure-cli' if node['basebox']['install_allure_cli']
 
