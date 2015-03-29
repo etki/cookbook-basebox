@@ -6,7 +6,7 @@ description      'Installs and configures shared Basebox components'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
-depends 'apt', '~> 2.7.0'
+depends 'apt', '~> 2.6.0'
 depends 'git', '~> 4.1.0'
 depends 'nginx', '~> 2.7.6'
 depends 'nginx_conf', '~> 0.0.5'
