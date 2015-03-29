@@ -76,8 +76,7 @@ end
 include_recipe 'sqlite' if node['basebox']['install_sqlite']
 
 if node['basebox']['install_redis']
-  include_recipe 'redis::server'
-  include_recipe 'redis::client'
+  include_recipe 'redis::install_from_package'
 end
 
 include_recipe 'memcached' if node['basebox']['install_memcached']
