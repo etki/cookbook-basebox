@@ -24,6 +24,6 @@ depends 'phantomjs', '~> 1.0.3'
 depends 'allure-cli', '~> 0.1.0'
 depends 'monit-ng', '~> 1.6.1'
 
-%{ubuntu}.each do |os|
+%w{ubuntu}.each do |os|
   supports os
 end
